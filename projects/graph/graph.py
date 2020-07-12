@@ -31,14 +31,39 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        visited = [False] * len(self.vertices)
+        q = Queue()
+        q.enqueue(starting_vertex)
+        visited[starting_vertex - 1] = True
+
+        while q.size() > 0:
+            vertex = q.dequeue()
+            print(vertex)
+
+            for v in self.vertices[vertex]:
+                if visited[v - 1] == False:
+                    q.enqueue(v)
+                    visited[v - 1] = True
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        visited = [False] * len(self.vertices)
+        s = Stack()
+        s.push(starting_vertex)
+
+        while s.size() > 0:
+            vertex = s.pop()
+
+            if not visited[vertex - 1]:
+                print(vertex)
+                visited[vertex - 1] = True
+
+            for v in self.vertices[vertex]:
+                if not visited[v - 1]:
+                    s.push(v)
 
     def dft_recursive(self, starting_vertex):
         """
