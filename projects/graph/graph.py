@@ -18,7 +18,7 @@ class Graph:
         if v1 and v2 in self.vertices:
             self.vertices[v1].add(v2)
         else:
-            print(f'Vertices must be valid.')
+            print(f'Vertices must be valid')
 
     def get_neighbors(self, vertex_id):
         """
@@ -38,9 +38,10 @@ class Graph:
 
         while q.size() > 0:
             vertex = q.dequeue()
+            neighbors = self.get_neighbors(vertex)
             print(vertex)
 
-            for v in self.vertices[vertex]:
+            for v in neighbors:
                 if visited[v - 1] == False:
                     q.enqueue(v)
                     visited[v - 1] = True
@@ -56,21 +57,34 @@ class Graph:
 
         while s.size() > 0:
             vertex = s.pop()
+            neighbors = self.get_neighbors(vertex)
 
             if not visited[vertex - 1]:
                 print(vertex)
                 visited[vertex - 1] = True
 
-            for v in self.vertices[vertex]:
+            for v in neighbors:
                 if not visited[v - 1]:
                     s.push(v)
+
+    def dft_recursive_util(self, vertex, visited):
+        visited.append(vertex)
+        neighbors = self.get_neighbors(vertex)
+        print(vertex)
+
+        for v in neighbors:
+            if v not in visited:
+                visited = self.dft_recursive_util(v, visited)
+        
+        return visited
 
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex using recursion.
         """
-        pass  # TODO
+        visited = []
+        self.dft_recursive_util(starting_vertex, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -138,6 +152,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
+    print('BFT')
     graph.bft(1)
 
     '''
@@ -147,13 +162,16 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print('DFT Iterative')
     graph.dft(1)
+    print('DFT Recursive')
     graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
+    print('BFS')
     print(graph.bfs(1, 6))
 
     '''
@@ -161,5 +179,7 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
+    print('DFS Iterative')
     print(graph.dfs(1, 6))
+    print('DFS Recursive')
     print(graph.dfs_recursive(1, 6))
