@@ -31,9 +31,10 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        visited = [False] * len(self.vertices)
         q = Queue()
         q.enqueue(starting_vertex)
+
+        visited = [False] * len(self.vertices)
         visited[starting_vertex - 1] = True
 
         while q.size() > 0:
@@ -51,9 +52,10 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        visited = [False] * len(self.vertices)
         s = Stack()
         s.push(starting_vertex)
+
+        visited = [False] * len(self.vertices)
 
         while s.size() > 0:
             vertex = s.pop()
@@ -92,7 +94,27 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # Keep lists of where the path is at each vertex or keep track of "parent" nodes
+        q = Queue()
+        q.enqueue([starting_vertex])
+
+        visited = [False] * len(self.vertices)
+        visited[starting_vertex - 1] = True
+
+        while q.size() > 0:
+            path = q.dequeue()
+            vertex = path[-1]
+            neighbors = self.get_neighbors(vertex)
+
+            if vertex == destination_vertex:
+                return path
+            
+            visited[vertex - 1] = True
+
+            for v in neighbors:
+                path_copy = path.copy()
+                path_copy.append(v)
+                q.enqueue(path_copy)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -100,7 +122,8 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        path = []
+        return path
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -108,7 +131,8 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order using recursion.
         """
-        pass  # TODO
+        path = []
+        return path
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
