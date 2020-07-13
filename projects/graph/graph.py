@@ -69,24 +69,22 @@ class Graph:
                 if not visited[v - 1]:
                     s.push(v)
 
-    def dft_recursive_util(self, vertex, visited):
-        visited.append(vertex)
-        neighbors = self.get_neighbors(vertex)
-        print(vertex)
-
-        for v in neighbors:
-            if v not in visited:
-                visited = self.dft_recursive_util(v, visited)
-        
-        return visited
-
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited = None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex using recursion.
         """
-        visited = []
-        self.dft_recursive_util(starting_vertex, visited)
+        if visited is None:
+            visited = [False] * len(self.vertices)
+        
+        visited[starting_vertex - 1] = True
+        print(starting_vertex)
+
+        neighbors = self.get_neighbors(starting_vertex)
+
+        for v in neighbors:
+            if not visited[v - 1]:
+                self.dft_recursive(v, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -132,13 +130,31 @@ class Graph:
                 path_copy.append(v)
                 s.push(path_copy)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited = None, path = []):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order using recursion.
         """
-        pass # TODO
+        if visited is None:
+            visited = [False] * len(self.vertices)
+        
+        path_copy = path.copy()
+        path_copy.append(starting_vertex)
+
+        if starting_vertex == destination_vertex:
+            return path_copy
+
+        neighbors = self.get_neighbors(starting_vertex)
+        for v in neighbors:
+            if not visited[v - 1]:
+                visited[v - 1] = True
+                path_copy = self.dfs_recursive(v, destination_vertex, visited, path_copy)
+
+                if path_copy[-1] == destination_vertex:
+                    return path_copy
+        
+        return path
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
