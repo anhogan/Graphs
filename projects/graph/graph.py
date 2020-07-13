@@ -94,12 +94,8 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        # Keep lists of where the path is at each vertex or keep track of "parent" nodes
         q = Queue()
         q.enqueue([starting_vertex])
-
-        visited = [False] * len(self.vertices)
-        visited[starting_vertex - 1] = True
 
         while q.size() > 0:
             path = q.dequeue()
@@ -108,8 +104,6 @@ class Graph:
 
             if vertex == destination_vertex:
                 return path
-            
-            visited[vertex - 1] = True
 
             for v in neighbors:
                 path_copy = path.copy()
@@ -122,8 +116,21 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        path = []
-        return path
+        s = Stack()
+        s.push([starting_vertex])
+
+        while s.size() > 0:
+            path = s.pop()
+            vertex = path[-1]
+            neighbors = self.get_neighbors(vertex)
+
+            if vertex == destination_vertex:
+                return path
+
+            for v in neighbors:
+                path_copy = path.copy()
+                path_copy.append(v)
+                s.push(path_copy)
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -131,8 +138,7 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order using recursion.
         """
-        path = []
-        return path
+        pass # TODO
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
