@@ -34,6 +34,7 @@ class Graph:
         q = Queue()
         q.enqueue(starting_vertex)
 
+        # Can also use a set ... if not in set, add it
         visited = [False] * len(self.vertices)
         visited[starting_vertex - 1] = True
 
@@ -55,6 +56,7 @@ class Graph:
         s = Stack()
         s.push(starting_vertex)
 
+        # Can also use a set ... if not in set, add it
         visited = [False] * len(self.vertices)
 
         while s.size() > 0:
@@ -74,6 +76,7 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex using recursion.
         """
+        # Can also use a set ... if not in set, add it
         if visited is None:
             visited = [False] * len(self.vertices)
         
@@ -90,7 +93,7 @@ class Graph:
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
-        breath-first order.
+        breadth-first order.
         """
         q = Queue()
         q.enqueue([starting_vertex])
@@ -136,6 +139,7 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order using recursion.
         """
+        # Can also use a set ... if not in set, add it
         if visited is None:
             visited = [False] * len(self.vertices)
         
