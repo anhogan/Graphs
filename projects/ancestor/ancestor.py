@@ -32,9 +32,7 @@ def earliest_ancestor(ancestors, starting_node):
     # Build ancestor graph
     graph = Graph()
 
-    for pair in ancestors:
-        parent = pair[0]
-        child = pair[1]
+    for parent, child in ancestors:
         graph.add_vertex(parent)
         graph.add_vertex(child)
         graph.add_edge(child, parent)
@@ -46,15 +44,21 @@ def earliest_ancestor(ancestors, starting_node):
     longest_path = 1
     earliest_ancestor = -1
 
+    # If no parents, return -1
+    if len(graph.vertices[starting_node]) == 0:
+        return earliest_ancestor
+
     while q.size() > 0:
         path = q.dequeue()
         current = path[-1]
         
-        if len(path) >= longest_path:
+        if len(path) == longest_path:
+            # If current is smaller than earliest ancestor, update earliest ancestor is current
             if current <= earliest_ancestor:
                 longest_path = len(path)
                 earliest_ancestor = current
         
+        # If path is longer than previously visited path, update earliest ancestor to be current
         if len(path) > longest_path:
             longest_path = len(path)
             earliest_ancestor = current
@@ -67,32 +71,3 @@ def earliest_ancestor(ancestors, starting_node):
             q.enqueue(path_copy)
     
     return earliest_ancestor
-
-# ** ALTERNATE SOLUTION **
-
-# def earliest_ancestor(ancestors, starting_node):
-#     ancestor_graph = {}
-
-#     # For each ancestor, create a dictionary identifying it's parent nodes - (Child, Parent)
-#     for parent, child in ancestors:
-#         if child in ancestor_graph:
-#             ancestor_graph[child].add(parent)
-#         else:
-#             ancestor_graph[child] = set()
-#             ancestor_graph[child].add(parent)
-
-#     # If no parent nodes, return -1
-#     if starting_node not in ancestor_graph.keys():
-#         return -1
-    
-#     # Else, traverse up the graph until parent has no parent nodes
-#     current = starting_node
-#     # Smaller parent has equal, or longer, path to ancestors
-#     parent = min(ancestor_graph[current])
-
-#     # If parent has parents, continue examining the tree
-#     while parent in ancestor_graph.keys():
-#         current = parent
-#         parent = min(ancestor_graph[current])
-    
-#     return parent
