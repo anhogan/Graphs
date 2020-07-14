@@ -1,3 +1,10 @@
+import random
+
+def list_shuffle(list):
+    for i in range(len(list)):
+        random_index = random.randint(i, len(list) - 1)
+        list[random_index], list[i] = list[i], list[random_index]
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -42,11 +49,26 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
+        
+        if avg_friendships > num_users:
+            print('WARNING: There must be more users than average friendships')
+
+        friendships = []
 
         # Add users
+        for user in range(1, num_users + 1):
+            self.add_user(user)
+            friendships.append(user)
 
         # Create friendships
+        for user in self.users:
+            list_shuffle(friendships)
+            num_of_friends = random.randint(0, 4)
+            friends_list = friendships[:num_of_friends + 1]
+
+            for friend in friends_list:
+                if user < friend:
+                    self.add_friendship(user, friend)
 
     def get_all_social_paths(self, user_id):
         """
@@ -58,9 +80,9 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
-        return visited
+        # TODO
 
+        return visited
 
 if __name__ == '__main__':
     sg = SocialGraph()
