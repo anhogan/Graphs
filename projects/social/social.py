@@ -70,7 +70,24 @@ class SocialGraph:
                 if user < friend:
                     self.add_friendship(user, friend)
 
-    def get_all_social_paths(self, user_id):
+    def path_to_friend(self, user, friend):
+        queue = []
+        queue.append([user])
+
+        while len(queue) > 0:
+            path = queue.pop(0)
+            current_user = path[-1]
+            friends = self.friendships[current_user]
+
+            if current_user == friend:
+                return path
+
+            for f in friends:
+                path_copy = path.copy()
+                path_copy.append(f)
+                queue.append(path_copy)
+
+    def get_all_social_paths(self, user_id, visited = {}):
         """
         Takes a user's user_id as an argument
 
@@ -80,7 +97,27 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # TODO
+
+        visited[user_id] = set()
+        social_connections = []
+        social_connections.append(user_id)
+
+        # Generate a list of all possible social connections
+        # Add each one to the visited dict
+        while len(social_connections) > 0:
+            social_connections.pop(0)
+            friends = self.friendships[user_id]
+
+            for f in friends:
+                if f not in visited:
+                    visited[f] = set()
+                    social_connections.append(f)
+                    # Create a separate recursive function?
+                    print(social_connections)
+        
+        # For each key, find the shortest path using BFS and make that it's value (path_to_friend)
+        for friend in visited:
+            visited[friend] = self.path_to_friend(user_id, friend)
 
         return visited
 
