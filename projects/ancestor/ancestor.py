@@ -11,6 +11,12 @@ class Graph:
             self.vertices[v1].add(v2)
         else:
             print(f'Vertices must be valid')
+    
+    def get_neighbors(self, vertex_id):
+        """
+        Get all neighbors (edges) of a vertex.
+        """
+        return self.vertices[vertex_id]
 
 class Queue():
     def __init__(self):
@@ -27,6 +33,22 @@ class Queue():
 
     def size(self):
         return len(self.queue)
+
+class Stack():
+    def __init__(self):
+        self.stack = []
+
+    def push(self, value):
+        self.stack.append(value)
+
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+
+    def size(self):
+        return len(self.stack)
 
 def earliest_ancestor(ancestors, starting_node):
     # Build ancestor graph
@@ -71,3 +93,44 @@ def earliest_ancestor(ancestors, starting_node):
             q.enqueue(path_copy)
     
     return earliest_ancestor
+
+# CLASS SOLUTION
+# def build_graph(ancestors):
+#     graph = Graph()
+
+#     for parent, child in ancestors:
+#         graph.add_vertex(parent)
+#         graph.add_vertex(child)
+#         graph.add_edge(child, parent)
+    
+#     return graph
+
+# def earliest_ancestor(ancestors, starting_node):
+#     graph = build_graph(ancestors)
+
+#     s = Stack()
+#     s.push([starting_node])
+
+#     visited = set()
+
+#     longest_path = []
+#     earliest_ancestor = -1
+
+#     while s.size() > 0:
+#         path = s.pop()
+#         current = path[-1]
+
+#         if (len(path) > len(longest_path)) or (len(path) == len(longest_path)) and current < earliest_ancestor:
+#             longest_path = path
+#             earliest_ancestor = longest_path[-1]
+
+#         if current not in visited:
+#             visited.add(current)
+
+#             parents = graph.get_neighbors(current)
+
+#             for parent in parents:
+#                 new_path = path + [parent]
+#                 s.push(new_path)
+    
+#     return earliest_ancestor
