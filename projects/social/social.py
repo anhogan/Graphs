@@ -58,17 +58,17 @@ class SocialGraph:
         # Add users
         for user in range(1, num_users + 1):
             self.add_user(user)
-            friendships.append(user)
 
         # Create friendships
         for user in self.users:
-            list_shuffle(friendships)
-            num_of_friends = random.randint(0, 4)
-            friends_list = friendships[:num_of_friends]
+            for friend in range(user + 1, self.last_id + 1):
+                friendships.append((user, friend))
+        
+        list_shuffle(friendships)
 
-            for friend in friends_list:
-                if user < friend:
-                    self.add_friendship(user, friend)
+        for friendship in range(avg_friendships * num_users // 2):
+            connection = friendships[friendship]
+            self.add_friendship(connection[0], connection[1])
 
     def path_to_friend(self, user, friend):
         queue = []
