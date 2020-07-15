@@ -64,7 +64,7 @@ class SocialGraph:
         for user in self.users:
             list_shuffle(friendships)
             num_of_friends = random.randint(0, 4)
-            friends_list = friendships[:num_of_friends + 1]
+            friends_list = friendships[:num_of_friends]
 
             for friend in friends_list:
                 if user < friend:
@@ -87,7 +87,7 @@ class SocialGraph:
                 path_copy.append(f)
                 queue.append(path_copy)
 
-    def get_all_social_paths(self, user_id, visited = {}):
+    def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument
 
@@ -102,20 +102,16 @@ class SocialGraph:
         social_connections = []
         social_connections.append(user_id)
 
-        # Generate a list of all possible social connections
-        # Add each one to the visited dict
+        # Generate a list of all possible social connections and add each one to visited
         while len(social_connections) > 0:
-            social_connections.pop(0)
-            friends = self.friendships[user_id]
+            current_user = social_connections.pop(0)
+            friends = self.friendships[current_user]
 
             for f in friends:
                 if f not in visited:
                     visited[f] = set()
                     social_connections.append(f)
-                    # Create a separate recursive function?
-                    print(social_connections)
         
-        # For each key, find the shortest path using BFS and make that it's value (path_to_friend)
         for friend in visited:
             visited[friend] = self.path_to_friend(user_id, friend)
 
