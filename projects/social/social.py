@@ -87,7 +87,41 @@ class SocialGraph:
             self.add_friendship(connection[0], connection[1])
     
     def linear_populate_graph(self, num_users, avg_friendships):
-        pass
+        """
+        Takes a number of users and an average number of friendships
+        as arguments
+
+        Creates that number of users and a randomly distributed friendships
+        between those users.
+
+        The number of users must be greater than the average number of friendships.
+        """
+        # Reset graph
+        self.last_id = 0
+        self.users = {}
+        self.friendships = {}
+        
+        if avg_friendships > num_users:
+            print('WARNING: There must be more users than average friendships')
+
+        friendships = []
+
+        # Add users
+        for user in range(num_users):
+            self.add_user(user)
+
+        # Create friendships
+        target_num_friendships = num_users * avg_friendships
+        friendships_created = 0
+
+        while friendships_created < target_num_friendships:
+            friend_one = random.randint(1, self.last_id)
+            friend_two = random.randint(1, self.last_id)
+
+            friendship_was_made = self.add_friendship(friend_one, friend_two)
+
+            if friendship_was_made:
+                friendships_created += 2
 
     # BFS
     def path_to_friend(self, user, friend):
