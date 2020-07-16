@@ -1,5 +1,21 @@
 import random
 
+class Queue():
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
+
 def list_shuffle(list):
     for i in range(len(list)):
         random_index = random.randint(i, len(list) - 1)
@@ -69,7 +85,11 @@ class SocialGraph:
         for friendship in range(avg_friendships * num_users // 2):
             connection = friendships[friendship]
             self.add_friendship(connection[0], connection[1])
+    
+    def linear_populate_graph(self, num_users, avg_friendships):
+        pass
 
+    # BFS
     def path_to_friend(self, user, friend):
         queue = []
         queue.append([user])
@@ -116,6 +136,26 @@ class SocialGraph:
             visited[friend] = self.path_to_friend(user_id, friend)
 
         return visited
+
+        # # CLASS SOLUTION
+        # visited = {}  # Note that this is a dictionary, not a set
+
+        # q = Queue()
+        # q.enqueue([user_id])
+
+        # while q.size() > 0:
+        #     user_list = q.dequeue()
+        #     user = user_list[-1]
+
+        #     if user not in visited:
+        #         visited[user] = user_list
+        #         friends = self.friendships[user]
+
+        #         for friend in friends:
+        #             path_to_friend = user_list + [friend]
+        #             q.enqueue(path_to_friend)
+
+        # return visited
 
 if __name__ == '__main__':
     sg = SocialGraph()
